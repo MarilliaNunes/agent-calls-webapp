@@ -52,9 +52,10 @@ const settingsItems = [
 ];
 
 export function AppSidebar() {
-  const { collapsed } = useSidebar();
+  const { state } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
+  const isCollapsed = state === "collapsed";
 
   const [telephonyOpen, setTelephonyOpen] = useState(
     currentPath.startsWith("/telephony")
@@ -70,7 +71,7 @@ export function AppSidebar() {
       : "hover:bg-sidebar-accent/50 text-sidebar-foreground";
 
   return (
-    <Sidebar className={collapsed ? "w-16" : "w-64"} collapsible>
+    <Sidebar className={isCollapsed ? "w-16" : "w-64"} collapsible="icon">
       <SidebarContent className="px-3 py-4">
         {/* Main Navigation */}
         <SidebarGroup>
@@ -84,7 +85,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavClass}>
                       <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
+                      {!isCollapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -102,7 +103,7 @@ export function AppSidebar() {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton className="hover:bg-sidebar-accent/50 text-sidebar-foreground">
                       <Phone className="h-4 w-4" />
-                      {!collapsed && (
+                      {!isCollapsed && (
                         <>
                           <span>Telephony</span>
                           <ChevronDown className={`ml-auto h-4 w-4 transition-transform ${telephonyOpen ? 'rotate-180' : ''}`} />
@@ -110,7 +111,7 @@ export function AppSidebar() {
                       )}
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
-                  {!collapsed && (
+                  {!isCollapsed && (
                     <CollapsibleContent>
                       <SidebarMenuSub>
                         {telephonyItems.map((item) => (
@@ -141,7 +142,7 @@ export function AppSidebar() {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton className="hover:bg-sidebar-accent/50 text-sidebar-foreground">
                       <Settings className="h-4 w-4" />
-                      {!collapsed && (
+                      {!isCollapsed && (
                         <>
                           <span>Settings</span>
                           <ChevronDown className={`ml-auto h-4 w-4 transition-transform ${settingsOpen ? 'rotate-180' : ''}`} />
@@ -149,7 +150,7 @@ export function AppSidebar() {
                       )}
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
-                  {!collapsed && (
+                  {!isCollapsed && (
                     <CollapsibleContent>
                       <SidebarMenuSub>
                         {settingsItems.map((item) => (
