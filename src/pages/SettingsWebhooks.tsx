@@ -1,11 +1,15 @@
 
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CreateWebhookModal } from "@/components/modals/CreateWebhookModal";
 import { Plus, ExternalLink } from "lucide-react";
 
 const SettingsWebhooks = () => {
+  const [createWebhookModalOpen, setCreateWebhookModalOpen] = useState(false);
+
   const breadcrumbs = [
     { label: "Settings", href: "/settings" },
     { label: "Webhooks", href: "/settings/webhooks" }
@@ -33,7 +37,7 @@ const SettingsWebhooks = () => {
         title="Webhooks" 
         breadcrumbs={breadcrumbs}
         action={
-          <Button>
+          <Button onClick={() => setCreateWebhookModalOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Create Webhook
           </Button>
@@ -56,6 +60,11 @@ const SettingsWebhooks = () => {
       </Card>
       
       <DataTable columns={columns} data={data} />
+      
+      <CreateWebhookModal 
+        open={createWebhookModalOpen} 
+        onOpenChange={setCreateWebhookModalOpen} 
+      />
     </div>
   );
 };

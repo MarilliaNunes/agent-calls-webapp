@@ -1,12 +1,17 @@
-
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { MetricCard } from "@/components/MetricCard";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { CreateTrunkModal } from "@/components/modals/CreateTrunkModal";
+import { CreateDispatchRuleModal } from "@/components/modals/CreateDispatchRuleModal";
 import { Plus } from "lucide-react";
 
 const TelephonyConfig = () => {
+  const [createTrunkOpen, setCreateTrunkOpen] = useState(false);
+  const [createDispatchRuleOpen, setCreateDispatchRuleOpen] = useState(false);
+
   const inboundTrunksColumns = [
     { key: "id", header: "Trunk ID" },
     { key: "name", header: "Trunk Name" },
@@ -64,8 +69,12 @@ const TelephonyConfig = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Create Trunk</DropdownMenuItem>
-              <DropdownMenuItem>Create Dispatch Rule</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setCreateTrunkOpen(true)}>
+                Create Trunk
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setCreateDispatchRuleOpen(true)}>
+                Create Dispatch Rule
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         }
@@ -94,6 +103,15 @@ const TelephonyConfig = () => {
           />
         </div>
       </div>
+
+      <CreateTrunkModal 
+        open={createTrunkOpen} 
+        onOpenChange={setCreateTrunkOpen} 
+      />
+      <CreateDispatchRuleModal 
+        open={createDispatchRuleOpen} 
+        onOpenChange={setCreateDispatchRuleOpen} 
+      />
     </div>
   );
 };

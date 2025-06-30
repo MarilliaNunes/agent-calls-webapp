@@ -1,10 +1,14 @@
 
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
+import { CreateKeyModal } from "@/components/modals/CreateKeyModal";
 import { Plus } from "lucide-react";
 
 const SettingsKeys = () => {
+  const [createKeyModalOpen, setCreateKeyModalOpen] = useState(false);
+
   const breadcrumbs = [
     { label: "Settings", href: "/settings" },
     { label: "API Keys", href: "/settings/keys" }
@@ -44,7 +48,7 @@ const SettingsKeys = () => {
         title="API Keys" 
         breadcrumbs={breadcrumbs}
         action={
-          <Button>
+          <Button onClick={() => setCreateKeyModalOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Create Key
           </Button>
@@ -52,6 +56,11 @@ const SettingsKeys = () => {
       />
       
       <DataTable columns={columns} data={data} />
+      
+      <CreateKeyModal 
+        open={createKeyModalOpen} 
+        onOpenChange={setCreateKeyModalOpen} 
+      />
     </div>
   );
 };

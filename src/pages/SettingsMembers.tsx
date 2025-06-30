@@ -1,10 +1,14 @@
 
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
+import { InviteMemberModal } from "@/components/modals/InviteMemberModal";
 import { Plus } from "lucide-react";
 
 const SettingsMembers = () => {
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
+
   const breadcrumbs = [
     { label: "Settings", href: "/settings" },
     { label: "Team Members", href: "/settings/members" }
@@ -41,7 +45,7 @@ const SettingsMembers = () => {
         title="Team Members" 
         breadcrumbs={breadcrumbs}
         action={
-          <Button>
+          <Button onClick={() => setInviteModalOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Invite Member
           </Button>
@@ -49,6 +53,11 @@ const SettingsMembers = () => {
       />
       
       <DataTable columns={columns} data={data} />
+      
+      <InviteMemberModal 
+        open={inviteModalOpen} 
+        onOpenChange={setInviteModalOpen} 
+      />
     </div>
   );
 };
