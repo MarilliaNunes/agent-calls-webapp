@@ -5,24 +5,28 @@ import { DataTable } from "@/components/DataTable";
 import { Users, Building } from "lucide-react";
 
 const sessionsColumns = [
-  { key: "sessionId", title: "Session ID", sortable: true },
-  { key: "roomName", title: "Room name", sortable: true },
-  { key: "startedAt", title: "Started at", sortable: true },
-  { key: "endedAt", title: "Ended at", sortable: true },
-  { key: "duration", title: "Duration", sortable: true },
-  { key: "participants", title: "Participants", sortable: true },
-  { key: "features", title: "Features" },
-  { key: "status", title: "Status" },
+  { key: "sessionId", header: "Session ID", sortable: true },
+  { key: "roomName", header: "Room name", sortable: true },
+  { key: "startedAt", header: "Started at", sortable: true },
+  { key: "endedAt", header: "Ended at", sortable: true },
+  { key: "duration", header: "Duration", sortable: true },
+  { key: "participants", header: "Participants", sortable: true },
+  { key: "features", header: "Features" },
+  { key: "status", header: "Status" },
 ];
 
 const mockSessionsData: any[] = [];
 
 export default function Sessions() {
+  const breadcrumbs = [
+    { label: "Sessions", href: "/sessions" }
+  ];
+
   return (
     <div className="flex flex-col">
       <Header 
         title="Sessions" 
-        breadcrumbs={["Sessions"]}
+        breadcrumbs={breadcrumbs}
         lastUpdated="2 min ago"
         autoRefresh={true}
       />
@@ -45,7 +49,6 @@ export default function Sessions() {
         </div>
         
         <DataTable
-          title="Sessions"
           columns={sessionsColumns}
           data={mockSessionsData}
           searchPlaceholder="Search sessions..."

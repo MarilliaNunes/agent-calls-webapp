@@ -4,11 +4,15 @@ import { MetricCard } from "@/components/MetricCard";
 import { Activity, Users, Clock, Zap } from "lucide-react";
 
 export default function Overview() {
+  const breadcrumbs = [
+    { label: "Overview", href: "/overview" }
+  ];
+
   return (
     <div className="flex flex-col">
       <Header 
         title="Overview" 
-        breadcrumbs={["Overview"]}
+        breadcrumbs={breadcrumbs}
         lastUpdated="4 min ago"
         autoRefresh={true}
       />

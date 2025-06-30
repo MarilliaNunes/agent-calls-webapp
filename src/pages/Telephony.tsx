@@ -5,25 +5,29 @@ import { DataTable } from "@/components/DataTable";
 import { Phone, Clock, Activity, AlertTriangle } from "lucide-react";
 
 const callsColumns = [
-  { key: "id", title: "ID", sortable: true },
-  { key: "from", title: "From", sortable: true },
-  { key: "to", title: "To", sortable: true },
-  { key: "direction", title: "Direction", sortable: true },
-  { key: "startedAt", title: "Started at", sortable: true },
-  { key: "endedAt", title: "Ended at", sortable: true },
-  { key: "duration", title: "Duration", sortable: true },
-  { key: "session", title: "Session" },
-  { key: "status", title: "Status" },
+  { key: "id", header: "ID", sortable: true },
+  { key: "from", header: "From", sortable: true },
+  { key: "to", header: "To", sortable: true },
+  { key: "direction", header: "Direction", sortable: true },
+  { key: "startedAt", header: "Started at", sortable: true },
+  { key: "endedAt", header: "Ended at", sortable: true },
+  { key: "duration", header: "Duration", sortable: true },
+  { key: "session", header: "Session" },
+  { key: "status", header: "Status" },
 ];
 
 const mockCallsData: any[] = [];
 
 export default function Telephony() {
+  const breadcrumbs = [
+    { label: "Telephony", href: "/telephony" }
+  ];
+
   return (
     <div className="flex flex-col">
       <Header 
         title="Telephony" 
-        breadcrumbs={["Telephony"]}
+        breadcrumbs={breadcrumbs}
         lastUpdated="4 min ago"
         autoRefresh={false}
       />
@@ -67,7 +71,6 @@ export default function Telephony() {
         </div>
         
         <DataTable
-          title="Calls"
           columns={callsColumns}
           data={mockCallsData}
           searchPlaceholder="Search calls..."

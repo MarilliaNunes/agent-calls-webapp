@@ -3,30 +3,33 @@ import { Header } from "@/components/Header";
 import { DataTable } from "@/components/DataTable";
 
 const ingressesColumns = [
-  { key: "id", title: "ID", sortable: true },
-  { key: "startedAt", title: "Started at", sortable: true },
-  { key: "duration", title: "Duration", sortable: true },
-  { key: "status", title: "Status" },
-  { key: "type", title: "Type" },
-  { key: "source", title: "Source" },
-  { key: "destination", title: "Destination" },
+  { key: "id", header: "ID", sortable: true },
+  { key: "startedAt", header: "Started at", sortable: true },
+  { key: "duration", header: "Duration", sortable: true },
+  { key: "status", header: "Status" },
+  { key: "type", header: "Type" },
+  { key: "source", header: "Source" },
+  { key: "destination", header: "Destination" },
 ];
 
 const mockIngressesData: any[] = [];
 
 export default function Ingresses() {
+  const breadcrumbs = [
+    { label: "Ingresses", href: "/ingresses" }
+  ];
+
   return (
     <div className="flex flex-col">
       <Header 
         title="Ingresses" 
-        breadcrumbs={["Ingresses"]}
+        breadcrumbs={breadcrumbs}
         lastUpdated="1 min ago"
         autoRefresh={true}
       />
       
       <main className="flex-1 p-6 space-y-6">
         <DataTable
-          title="Ingresses"
           columns={ingressesColumns}
           data={mockIngressesData}
           searchPlaceholder="Search ingresses..."

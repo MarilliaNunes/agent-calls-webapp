@@ -3,29 +3,32 @@ import { Header } from "@/components/Header";
 import { DataTable } from "@/components/DataTable";
 
 const egressesColumns = [
-  { key: "id", title: "ID", sortable: true },
-  { key: "startedAt", title: "Started at", sortable: true },
-  { key: "lastActiveAt", title: "Last active at", sortable: true },  
-  { key: "duration", title: "Duration", sortable: true },
-  { key: "status", title: "Status" },
-  { key: "sessions", title: "Sessions" },
+  { key: "id", header: "ID", sortable: true },
+  { key: "startedAt", header: "Started at", sortable: true },
+  { key: "lastActiveAt", header: "Last active at", sortable: true },  
+  { key: "duration", header: "Duration", sortable: true },
+  { key: "status", header: "Status" },
+  { key: "sessions", header: "Sessions" },
 ];
 
 const mockEgressesData: any[] = [];
 
 export default function Egresses() {
+  const breadcrumbs = [
+    { label: "Egresses", href: "/egresses" }
+  ];
+
   return (
     <div className="flex flex-col">
       <Header 
         title="Egresses" 
-        breadcrumbs={["Egresses"]}
+        breadcrumbs={breadcrumbs}
         lastUpdated="3 min ago"
         autoRefresh={true}
       />
       
       <main className="flex-1 p-6 space-y-6">
         <DataTable
-          title="Egresses"
           columns={egressesColumns}
           data={mockEgressesData}
           searchPlaceholder="Search egresses..."
