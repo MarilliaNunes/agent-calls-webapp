@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   BarChart3,
@@ -109,24 +109,41 @@ export function AppSidebar() {
     const { open, setOpen } = getSectionState(section.basePath);
     const shouldOpen = open && !isCollapsed;
     
+    const handleClick = (e: React.MouseEvent) => {
+      if (!isCollapsed) {
+        e.preventDefault();
+        setOpen(!open);
+      }
+    };
+    
     return (
       <SidebarMenuItem key={section.title}>
         <Collapsible open={shouldOpen} onOpenChange={setOpen}>
-          <CollapsibleTrigger className={`flex items-center gap-3 text-sm font-medium w-full transition-colors duration-150 ${
-            isCollapsed ? 'py-2 justify-center' : 'px-6 py-2 justify-start'
-          } ${
-            currentPath.startsWith(section.basePath) 
-              ? 'bg-secondary text-foreground' 
-              : 'text-foreground hover:bg-muted'
-          }`}>
-            <section.icon className="h-4 w-4 text-muted-foreground" />
-            {!isCollapsed && (
-              <>
-                <span>{section.title}</span>
-                <ChevronDown className={`ml-auto h-4 w-4 text-muted-foreground transition-transform duration-200 ${shouldOpen ? 'rotate-180' : ''}`} />
-              </>
-            )}
-          </CollapsibleTrigger>
+          <SidebarMenuButton asChild className="h-auto p-6">
+            <NavLink 
+              to={section.basePath} 
+              onClick={handleClick}
+              className={({ isActive }) => {
+                const shouldBeActive = isActive || currentPath.startsWith(section.basePath);
+                
+                return `flex items-center gap-3 text-sm font-medium transition-colors duration-150 ${
+                  isCollapsed ? 'px-4 py-2 justify-center' : 'px-6 py-2 justify-start'
+                } ${
+                  shouldBeActive
+                    ? 'bg-secondary text-foreground' 
+                    : 'text-foreground hover:bg-muted'
+                }`;
+              }}
+            >
+              <section.icon className="h-4 w-4 text-muted-foreground" />
+              {!isCollapsed && (
+                <>
+                  <span>{section.title}</span>
+                  <ChevronDown className={`ml-auto h-4 w-4 text-muted-foreground transition-transform duration-200 ${shouldOpen ? 'rotate-180' : ''}`} />
+                </>
+              )}
+            </NavLink>
+          </SidebarMenuButton>
           {!isCollapsed && (
             <CollapsibleContent>
               <SidebarMenuSub className="border-l border-border/30 ml-4">
@@ -165,19 +182,21 @@ export function AppSidebar() {
           <div className="flex items-center justify-center gap-3 mb-3">
             {!isCollapsed && (
               <>
-                {/* Logo placeholder - square SVG */}
-                <div className="w-8 h-8 bg-primary flex items-center justify-center">
+                {/* LiveKit Logo */}
+                <div className="w-8 h-8 flex items-center justify-center">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="2" width="20" height="20" fill="white" />
+                    <path d="M9.90198 3.8147e-06C9.21609 3.8147e-06 8.55816 0.275155 8.07309 0.765202L0.757481 8.15435C0.272416 8.64417 0 9.30867 0 10.0015V17.1429H5.14286V6.89632C5.14286 5.92791 5.9201 5.14286 6.87889 5.14286H24V3.8147e-06H9.90198Z" fill="#8C8C8C"/>
+                    <path d="M18.8571 17.1186C18.8571 18.0784 18.1015 18.8572 17.1429 18.8572L0 18.8572V24H14.0979C14.7839 24 15.4417 23.7272 15.9268 23.2412L23.2424 15.9138C23.7275 15.4284 24 14.7692 24 14.0822V6.85716H18.8571V17.1186Z" fill="#8C8C8C"/>
                   </svg>
                 </div>
                 <span className="text-lg font-semibold text-foreground">LiveKit</span>
               </>
             )}
             {isCollapsed && (
-              <div className="w-8 h-8 bg-primary flex items-center justify-center">
+              <div className="w-8 h-8 flex items-center justify-center">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="2" y="2" width="20" height="20" fill="white" />
+                  <path d="M9.90198 3.8147e-06C9.21609 3.8147e-06 8.55816 0.275155 8.07309 0.765202L0.757481 8.15435C0.272416 8.64417 0 9.30867 0 10.0015V17.1429H5.14286V6.89632C5.14286 5.92791 5.9201 5.14286 6.87889 5.14286H24V3.8147e-06H9.90198Z" fill="#8C8C8C"/>
+                  <path d="M18.8571 17.1186C18.8571 18.0784 18.1015 18.8572 17.1429 18.8572L0 18.8572V24H14.0979C14.7839 24 15.4417 23.7272 15.9268 23.2412L23.2424 15.9138C23.7275 15.4284 24 14.7692 24 14.0822V6.85716H18.8571V17.1186Z" fill="#8C8C8C"/>
                 </svg>
               </div>
             )}
