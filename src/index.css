@@ -1,88 +1,109 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* LiveKit Dashboard Design System - Sharp corners, clean styling */
+/* Custom Design System - Updated Colors */
 @layer base {
   :root {
-    --background: 255 255 255;
-    --foreground: 23 23 23;
+    /* Main colors based on user specifications */
+    --background: 0 0% 98%; /* #FAFAFA */
+    --foreground: 0 0% 15%; /* #262626 - Text Buttons */
 
-    --card: 255 255 255;
-    --card-foreground: 23 23 23;
+    --card: 0 0% 100%; /* #FFFFFF - Panels */
+    --card-foreground: 0 0% 15%; /* #262626 */
 
-    --popover: 255 255 255;
-    --popover-foreground: 23 23 23;
+    --popover: 0 0% 100%; /* #FFFFFF - Panels */
+    --popover-foreground: 0 0% 15%; /* #262626 */
 
-    --primary: 14 165 233;
-    --primary-foreground: 255 255 255;
+    --primary: 210 56% 24%; /* #1B4061 - Dark Blue */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 245 245 245;
-    --secondary-foreground: 23 23 23;
+    --secondary: 0 0% 95%; /* #F2F2F2 - Selected */
+    --secondary-foreground: 0 0% 15%; /* #262626 */
 
-    --muted: 245 245 245;
-    --muted-foreground: 115 115 115;
+    --muted: 0 0% 90%; /* #E5E5E5 - Hover */
+    --muted-foreground: 0 0% 45%; /* #737373 - Labels */
 
-    --accent: 245 245 245;
-    --accent-foreground: 23 23 23;
+    --accent: 0 0% 95%; /* #F2F2F2 - Selected */
+    --accent-foreground: 0 0% 15%; /* #262626 */
 
-    --destructive: 239 68 68;
-    --destructive-foreground: 255 255 255;
+    --destructive: 0 100% 41%; /* #D00000 - Error */
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 229 229 229;
-    --input: 229 229 229;
-    --ring: 14 165 233;
+    --border: 0 0% 85%; /* #D9D9D9 - Borders */
+    --input: 0 0% 85%; /* #D9D9D9 - Borders */
+    --ring: 195 70% 54%; /* #3CB5DF - Light Blue */
 
     --radius: 0rem; /* Sharp corners everywhere */
 
-    --sidebar-background: 255 255 255;
-    --sidebar-foreground: 23 23 23;
-    --sidebar-primary: 14 165 233;
-    --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 245 245 245;
-    --sidebar-accent-foreground: 23 23 23;
-    --sidebar-border: 229 229 229;
-    --sidebar-ring: 14 165 233;
+    /* Sidebar colors */
+    --sidebar-background: 0 0% 100%; /* #FFFFFF - Panels */
+    --sidebar-foreground: 0 0% 15%; /* #262626 */
+    --sidebar-primary: 210 56% 24%; /* #1B4061 - Dark Blue */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 95%; /* #F2F2F2 - Selected */
+    --sidebar-accent-foreground: 0 0% 15%; /* #262626 */
+    --sidebar-border: 0 0% 85%; /* #D9D9D9 - Borders */
+    --sidebar-ring: 195 70% 54%; /* #3CB5DF - Light Blue */
+
+    /* Custom colors for specific use cases */
+    --disabled-text: 0 0% 60%; /* #999999 */
+    --divider-labels: 0 0% 70%; /* #B2B2B2 */
+    --icons: 0 0% 35%; /* #595959 */
+    --warning: 19 100% 48%; /* #F75600 */
+    --info: 177 100% 31%; /* #009C93 - Information mid blue */
+    --info-light: 195 70% 54%; /* #3CB5DF - Light blue */
+    --info-dark: 210 56% 24%; /* #1B4061 - Dark blue */
+    --brand-logo: 0 0% 0%; /* #000000 */
   }
 
   .dark {
-    --background: 10 10 10;
-    --foreground: 250 250 250;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
 
-    --card: 23 23 23;
-    --card-foreground: 250 250 250;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 23 23 23;
-    --popover-foreground: 250 250 250;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 14 165 233;
-    --primary-foreground: 255 255 255;
+    --primary: 210 56% 24%; /* #1B4061 - Dark Blue */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 38 38 38;
-    --secondary-foreground: 250 250 250;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 38 38 38;
-    --muted-foreground: 163 163 163;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 64%;
 
-    --accent: 38 38 38;
-    --accent-foreground: 250 250 250;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 239 68 68;
-    --destructive-foreground: 250 250 250;
+    --destructive: 0 100% 41%; /* #D00000 - Error */
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 38 38 38;
-    --input: 38 38 38;
-    --ring: 14 165 233;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 195 70% 54%; /* #3CB5DF - Light Blue */
 
-    --sidebar-background: 23 23 23;
-    --sidebar-foreground: 250 250 250;
-    --sidebar-primary: 14 165 233;
-    --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 38 38 38;
-    --sidebar-accent-foreground: 250 250 250;
-    --sidebar-border: 38 38 38;
-    --sidebar-ring: 14 165 233;
+    --sidebar-background: 0 0% 9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 210 56% 24%; /* #1B4061 - Dark Blue */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 195 70% 54%; /* #3CB5DF - Light Blue */
+
+    /* Custom colors for dark mode */
+    --disabled-text: 0 0% 60%; /* #999999 */
+    --divider-labels: 0 0% 70%; /* #B2B2B2 */
+    --icons: 0 0% 35%; /* #595959 */
+    --warning: 19 100% 48%; /* #F75600 */
+    --info: 177 100% 31%; /* #009C93 */
+    --info-light: 195 70% 54%; /* #3CB5DF */
+    --info-dark: 210 56% 24%; /* #1B4061 */
+    --brand-logo: 0 0% 100%; /* White logo in dark mode */
   }
 }
 
@@ -150,6 +171,8 @@
   .nav-item-active {
     @apply bg-sidebar-accent text-sidebar-accent-foreground;
   }
+
+
 
   /* Table styles */
   .table-header {

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -65,27 +64,32 @@ export function AppSidebar() {
   );
 
   const isActive = (path: string) => currentPath === path;
-  const getNavClass = ({ isActive }: { isActive: boolean }) =>
-    isActive 
-      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium border-r-2 border-sidebar-primary" 
-      : "hover:bg-sidebar-accent/50 text-sidebar-foreground";
 
   return (
     <Sidebar className={isCollapsed ? "w-16" : "w-64"} collapsible="icon">
-      <SidebarContent className="px-2 py-4 border-r border-sidebar-border">
+      <SidebarContent className="px-0 py-4 bg-card border-r border-border">
         {/* Main Navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/60 uppercase tracking-wider mb-2 px-3">
+          <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground/70 uppercase tracking-wider mb-2 px-3">
             Navigation
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-1">
+            <SidebarMenu className="space-y-0">
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="h-9">
-                    <NavLink to={item.url} className={getNavClass}>
-                      <item.icon className="h-4 w-4" />
-                      {!isCollapsed && <span className="text-sm">{item.title}</span>}
+                  <SidebarMenuButton asChild className="h-auto p-0">
+                    <NavLink 
+                      to={item.url} 
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2 text-sm font-medium transition-colors duration-150 ${
+                          isActive 
+                            ? 'bg-secondary text-foreground' 
+                            : 'text-foreground hover:bg-muted'
+                        }`
+                      }
+                    >
+                      <item.icon className="h-4 w-4 text-muted-foreground" />
+                      {!isCollapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -100,26 +104,37 @@ export function AppSidebar() {
             <SidebarMenu>
               <Collapsible open={telephonyOpen} onOpenChange={setTelephonyOpen}>
                 <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="hover:bg-sidebar-accent/50 text-sidebar-foreground h-9">
-                      <Phone className="h-4 w-4" />
-                      {!isCollapsed && (
-                        <>
-                          <span className="text-sm">Telephony</span>
-                          <ChevronDown className={`ml-auto h-4 w-4 transition-transform duration-200 ${telephonyOpen ? 'rotate-180' : ''}`} />
-                        </>
-                      )}
-                    </SidebarMenuButton>
+                  <CollapsibleTrigger className={`flex items-center gap-3 px-3 py-2 text-sm font-medium w-full justify-start transition-colors duration-150 ${
+                    currentPath.startsWith("/telephony") 
+                      ? 'bg-secondary text-foreground' 
+                      : 'text-foreground hover:bg-muted'
+                  }`}>
+                    <Phone className="h-4 w-4 text-muted-foreground" />
+                    {!isCollapsed && (
+                      <>
+                        <span>Telephony</span>
+                        <ChevronDown className={`ml-auto h-4 w-4 text-muted-foreground transition-transform duration-200 ${telephonyOpen ? 'rotate-180' : ''}`} />
+                      </>
+                    )}
                   </CollapsibleTrigger>
                   {!isCollapsed && (
                     <CollapsibleContent>
-                      <SidebarMenuSub className="ml-4 border-l border-sidebar-border/50">
+                      <SidebarMenuSub className="border-l border-border/30 ml-6">
                         {telephonyItems.map((item) => (
                           <SidebarMenuSubItem key={item.title}>
-                            <SidebarMenuSubButton asChild className="h-8">
-                              <NavLink to={item.url} className={getNavClass}>
-                                <item.icon className="h-4 w-4" />
-                                <span className="text-sm">{item.title}</span>
+                            <SidebarMenuSubButton asChild className="h-auto p-0">
+                              <NavLink 
+                                to={item.url} 
+                                className={({ isActive }) =>
+                                  `flex items-center gap-3 px-3 py-1.5 text-sm font-medium ml-4 transition-colors duration-150 ${
+                                    isActive 
+                                      ? 'bg-secondary text-foreground' 
+                                      : 'text-foreground hover:bg-muted'
+                                  }`
+                                }
+                              >
+                                <item.icon className="h-4 w-4 text-muted-foreground" />
+                                <span>{item.title}</span>
                               </NavLink>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
@@ -139,26 +154,37 @@ export function AppSidebar() {
             <SidebarMenu>
               <Collapsible open={settingsOpen} onOpenChange={setSettingsOpen}>
                 <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="hover:bg-sidebar-accent/50 text-sidebar-foreground h-9">
-                      <Settings className="h-4 w-4" />
-                      {!isCollapsed && (
-                        <>
-                          <span className="text-sm">Settings</span>
-                          <ChevronDown className={`ml-auto h-4 w-4 transition-transform duration-200 ${settingsOpen ? 'rotate-180' : ''}`} />
-                        </>
-                      )}
-                    </SidebarMenuButton>
+                  <CollapsibleTrigger className={`flex items-center gap-3 px-3 py-2 text-sm font-medium w-full justify-start transition-colors duration-150 ${
+                    currentPath.startsWith("/settings") 
+                      ? 'bg-secondary text-foreground' 
+                      : 'text-foreground hover:bg-muted'
+                  }`}>
+                    <Settings className="h-4 w-4 text-muted-foreground" />
+                    {!isCollapsed && (
+                      <>
+                        <span>Settings</span>
+                        <ChevronDown className={`ml-auto h-4 w-4 text-muted-foreground transition-transform duration-200 ${settingsOpen ? 'rotate-180' : ''}`} />
+                      </>
+                    )}
                   </CollapsibleTrigger>
                   {!isCollapsed && (
                     <CollapsibleContent>
-                      <SidebarMenuSub className="ml-4 border-l border-sidebar-border/50">
+                      <SidebarMenuSub className="border-l border-border/30 ml-6">
                         {settingsItems.map((item) => (
                           <SidebarMenuSubItem key={item.title}>
-                            <SidebarMenuSubButton asChild className="h-8">
-                              <NavLink to={item.url} className={getNavClass}>
-                                <item.icon className="h-4 w-4" />
-                                <span className="text-sm">{item.title}</span>
+                            <SidebarMenuSubButton asChild className="h-auto p-0">
+                              <NavLink 
+                                to={item.url} 
+                                className={({ isActive }) =>
+                                  `flex items-center gap-3 px-3 py-1.5 text-sm font-medium ml-4 transition-colors duration-150 ${
+                                    isActive 
+                                      ? 'bg-secondary text-foreground' 
+                                      : 'text-foreground hover:bg-muted'
+                                  }`
+                                }
+                              >
+                                <item.icon className="h-4 w-4 text-muted-foreground" />
+                                <span>{item.title}</span>
                               </NavLink>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
