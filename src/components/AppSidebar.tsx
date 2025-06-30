@@ -13,7 +13,8 @@ import {
   User,
   Key,
   Webhook,
-  FolderOpen
+  FolderOpen,
+  Menu
 } from "lucide-react";
 import {
   Sidebar,
@@ -32,10 +33,11 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const navigationItems = [
-  { title: "Overview", url: "/overview", icon: BarChart3 },
-  { title: "Sessions", url: "/sessions", icon: Users },
-  { title: "Egresses", url: "/egresses", icon: Download },
-  { title: "Ingresses", url: "/ingresses", icon: Upload },
+  { title: "Overview", url: "/overview", icon: BarChart3, position: "top" },
+  { title: "Sessions", url: "/sessions", icon: Users, position: "top" },
+  { title: "Egresses", url: "/egresses", icon: Download, position: "top" },
+  { title: "Ingresses", url: "/ingresses", icon: Upload, position: "top" },
+  { title: "Settings", url: "/settings/project", icon: Settings, position: "bottom" },
 ];
 
 const telephonyItems = [
@@ -43,15 +45,18 @@ const telephonyItems = [
   { title: "Configuration", url: "/telephony/config", icon: Wrench },
 ];
 
-const settingsItems = [
-  { title: "Project", url: "/settings/project", icon: FolderOpen },
-  { title: "Team Members", url: "/settings/members", icon: User },
-  { title: "API Keys", url: "/settings/keys", icon: Key },
-  { title: "Webhooks", url: "/settings/webhooks", icon: Webhook },
+const collapsibleSections = [
+  {
+    title: "Telephony",
+    icon: Phone,
+    position: "top",
+    basePath: "/telephony",
+    items: telephonyItems
+  }
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, toggleSidebar } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
   const isCollapsed = state === "collapsed";
@@ -59,144 +64,175 @@ export function AppSidebar() {
   const [telephonyOpen, setTelephonyOpen] = useState(
     currentPath.startsWith("/telephony")
   );
-  const [settingsOpen, setSettingsOpen] = useState(
-    currentPath.startsWith("/settings")
+
+  const getSectionState = (basePath: string) => {
+    if (basePath === "/telephony") return { open: telephonyOpen, setOpen: setTelephonyOpen };
+    return { open: false, setOpen: () => {} };
+  };
+
+  const topNavigationItems = navigationItems.filter(item => item.position === "top");
+  const bottomNavigationItems = navigationItems.filter(item => item.position === "bottom");
+  const topCollapsibleSections = collapsibleSections.filter(section => section.position === "top");
+  const bottomCollapsibleSections = collapsibleSections.filter(section => section.position === "bottom");
+
+  const renderNavigationItems = (items: typeof navigationItems) => (
+    <>
+      {items.map((item) => (
+        <SidebarMenuItem key={item.title}>
+          <SidebarMenuButton asChild className="h-auto p-6">
+            <NavLink 
+              to={item.url} 
+              className={({ isActive }) => {
+                // Special handling for Settings - consider active if we're anywhere in /settings/*
+                const isSettingsActive = item.title === "Settings" && currentPath.startsWith("/settings");
+                const shouldBeActive = isActive || isSettingsActive;
+                
+                return `flex items-center gap-3 text-sm font-medium transition-colors duration-150 ${
+                  isCollapsed ? 'px-4 py-2 justify-start' : 'px-6 py-2 justify-start'
+                } ${
+                  shouldBeActive
+                    ? 'bg-secondary text-foreground' 
+                    : 'text-foreground hover:bg-muted'
+                }`;
+              }}
+            >
+              <item.icon className="h-4 w-4 text-muted-foreground" />
+              {!isCollapsed && <span>{item.title}</span>}
+            </NavLink>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      ))}
+    </>
   );
 
-  const isActive = (path: string) => currentPath === path;
+  const renderCollapsibleSection = (section: typeof collapsibleSections[0]) => {
+    const { open, setOpen } = getSectionState(section.basePath);
+    const shouldOpen = open && !isCollapsed;
+    
+    return (
+      <SidebarMenuItem key={section.title}>
+        <Collapsible open={shouldOpen} onOpenChange={setOpen}>
+          <CollapsibleTrigger className={`flex items-center gap-3 text-sm font-medium w-full transition-colors duration-150 ${
+            isCollapsed ? 'py-2 justify-center' : 'px-6 py-2 justify-start'
+          } ${
+            currentPath.startsWith(section.basePath) 
+              ? 'bg-secondary text-foreground' 
+              : 'text-foreground hover:bg-muted'
+          }`}>
+            <section.icon className="h-4 w-4 text-muted-foreground" />
+            {!isCollapsed && (
+              <>
+                <span>{section.title}</span>
+                <ChevronDown className={`ml-auto h-4 w-4 text-muted-foreground transition-transform duration-200 ${shouldOpen ? 'rotate-180' : ''}`} />
+              </>
+            )}
+          </CollapsibleTrigger>
+          {!isCollapsed && (
+            <CollapsibleContent>
+              <SidebarMenuSub className="border-l border-border/30 ml-4">
+                {section.items.map((item) => (
+                  <SidebarMenuSubItem key={item.title}>
+                    <SidebarMenuSubButton asChild className="h-auto p-0">
+                      <NavLink 
+                        to={item.url} 
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 py-1.5 text-sm font-medium ml-4 transition-colors duration-150 ${
+                            isActive 
+                              ? 'bg-secondary text-foreground' 
+                              : 'text-foreground hover:bg-muted'
+                          }`
+                        }
+                      >
+                        <span>{item.title}</span>
+                      </NavLink>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                ))}
+              </SidebarMenuSub>
+            </CollapsibleContent>
+          )}
+        </Collapsible>
+      </SidebarMenuItem>
+    );
+  };
 
   return (
     <Sidebar className={isCollapsed ? "w-16" : "w-64"} collapsible="icon">
-      <SidebarContent className="px-0 py-4 bg-card border-r border-border">
-        {/* Main Navigation */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground/70 uppercase tracking-wider mb-2 px-3">
-            Navigation
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="space-y-0">
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="h-auto p-0">
-                    <NavLink 
-                      to={item.url} 
-                      className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-2 text-sm font-medium transition-colors duration-150 ${
-                          isActive 
-                            ? 'bg-secondary text-foreground' 
-                            : 'text-foreground hover:bg-muted'
-                        }`
-                      }
-                    >
-                      <item.icon className="h-4 w-4 text-muted-foreground" />
-                      {!isCollapsed && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+      <SidebarContent className="px-0 py-0 bg-card border-r border-border flex flex-col h-full">
+        {/* Header with logo and hamburger menu */}
+        <div className="p-4 border-b border-border">
+          {/* Logo and app name */}
+          <div className="flex items-center justify-center gap-3 mb-3">
+            {!isCollapsed && (
+              <>
+                {/* Logo placeholder - square SVG */}
+                <div className="w-8 h-8 bg-primary flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="20" height="20" fill="white" />
+                  </svg>
+                </div>
+                <span className="text-lg font-semibold text-foreground">Flow-Ops</span>
+              </>
+            )}
+            {isCollapsed && (
+              <div className="w-8 h-8 bg-primary flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="2" width="20" height="20" fill="white" />
+                </svg>
+              </div>
+            )}
+          </div>
+          
+          {/* Hamburger menu - always visible and centered */}
+          <div className="flex justify-center">
+            <button 
+              onClick={toggleSidebar}
+              className="p-2 hover:bg-muted rounded transition-colors duration-150"
+            >
+              <Menu className="h-5 w-5 text-muted-foreground" />
+            </button>
+          </div>
+        </div>
+        
+        {/* Navigation content */}
+        <div className="flex flex-col h-full py-4">
+        {/* Top Section */}
+        <div className="flex-1">
+          {/* Main Navigation */}
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu className="space-y-0">
+                {/* Navigation Items and Collapsible Sections together */}
+                {renderNavigationItems(topNavigationItems)}
+                {topCollapsibleSections.map((section) => renderCollapsibleSection(section))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </div>
 
-        {/* Telephony Section */}
-        <SidebarGroup className="mt-6">
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <Collapsible open={telephonyOpen} onOpenChange={setTelephonyOpen}>
-                <SidebarMenuItem>
-                  <CollapsibleTrigger className={`flex items-center gap-3 px-3 py-2 text-sm font-medium w-full justify-start transition-colors duration-150 ${
-                    currentPath.startsWith("/telephony") 
-                      ? 'bg-secondary text-foreground' 
-                      : 'text-foreground hover:bg-muted'
-                  }`}>
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    {!isCollapsed && (
-                      <>
-                        <span>Telephony</span>
-                        <ChevronDown className={`ml-auto h-4 w-4 text-muted-foreground transition-transform duration-200 ${telephonyOpen ? 'rotate-180' : ''}`} />
-                      </>
-                    )}
-                  </CollapsibleTrigger>
-                  {!isCollapsed && (
-                    <CollapsibleContent>
-                      <SidebarMenuSub className="border-l border-border/30 ml-6">
-                        {telephonyItems.map((item) => (
-                          <SidebarMenuSubItem key={item.title}>
-                            <SidebarMenuSubButton asChild className="h-auto p-0">
-                              <NavLink 
-                                to={item.url} 
-                                className={({ isActive }) =>
-                                  `flex items-center gap-3 px-3 py-1.5 text-sm font-medium ml-4 transition-colors duration-150 ${
-                                    isActive 
-                                      ? 'bg-secondary text-foreground' 
-                                      : 'text-foreground hover:bg-muted'
-                                  }`
-                                }
-                              >
-                                <item.icon className="h-4 w-4 text-muted-foreground" />
-                                <span>{item.title}</span>
-                              </NavLink>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
-                    </CollapsibleContent>
-                  )}
-                </SidebarMenuItem>
-              </Collapsible>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {/* Bottom Section */}
+        <div className="mt-auto">
+          {/* Bottom Navigation Items */}
+          {bottomNavigationItems.length > 0 && (
+            <SidebarGroup className="mb-4">
+              <SidebarGroupContent>
+                <SidebarMenu className="space-y-0">
+                  {renderNavigationItems(bottomNavigationItems)}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          )}
 
-        {/* Settings Section */}
-        <SidebarGroup className="mt-6">
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <Collapsible open={settingsOpen} onOpenChange={setSettingsOpen}>
-                <SidebarMenuItem>
-                  <CollapsibleTrigger className={`flex items-center gap-3 px-3 py-2 text-sm font-medium w-full justify-start transition-colors duration-150 ${
-                    currentPath.startsWith("/settings") 
-                      ? 'bg-secondary text-foreground' 
-                      : 'text-foreground hover:bg-muted'
-                  }`}>
-                    <Settings className="h-4 w-4 text-muted-foreground" />
-                    {!isCollapsed && (
-                      <>
-                        <span>Settings</span>
-                        <ChevronDown className={`ml-auto h-4 w-4 text-muted-foreground transition-transform duration-200 ${settingsOpen ? 'rotate-180' : ''}`} />
-                      </>
-                    )}
-                  </CollapsibleTrigger>
-                  {!isCollapsed && (
-                    <CollapsibleContent>
-                      <SidebarMenuSub className="border-l border-border/30 ml-6">
-                        {settingsItems.map((item) => (
-                          <SidebarMenuSubItem key={item.title}>
-                            <SidebarMenuSubButton asChild className="h-auto p-0">
-                              <NavLink 
-                                to={item.url} 
-                                className={({ isActive }) =>
-                                  `flex items-center gap-3 px-3 py-1.5 text-sm font-medium ml-4 transition-colors duration-150 ${
-                                    isActive 
-                                      ? 'bg-secondary text-foreground' 
-                                      : 'text-foreground hover:bg-muted'
-                                  }`
-                                }
-                              >
-                                <item.icon className="h-4 w-4 text-muted-foreground" />
-                                <span>{item.title}</span>
-                              </NavLink>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
-                    </CollapsibleContent>
-                  )}
-                </SidebarMenuItem>
-              </Collapsible>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+          {/* Bottom Collapsible Sections */}
+          {bottomCollapsibleSections.map((section) => (
+            <SidebarGroup key={section.title} className="mb-4">
+              <SidebarGroupContent>
+                {renderCollapsibleSection(section)}
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </div>
+        </div>
       </SidebarContent>
     </Sidebar>
   );

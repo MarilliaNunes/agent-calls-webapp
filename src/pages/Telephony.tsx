@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Header } from "@/components/Header";
 import { MetricCard } from "@/components/MetricCard";
@@ -26,7 +27,7 @@ export default function Telephony() {
   return (
     <div className="flex flex-col">
       <Header 
-        title="Telephony" 
+        title="Calls" 
         breadcrumbs={breadcrumbs}
         lastUpdated="4 min ago"
         autoRefresh={false}

@@ -56,9 +56,9 @@ const TelephonyConfig = () => {
   ];
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
+    <div className="flex flex-col">
       <Header 
-        title="Telephony Configuration" 
+        title="Configuration" 
         breadcrumbs={breadcrumbs}
         action={
           <DropdownMenu>
@@ -80,38 +80,40 @@ const TelephonyConfig = () => {
         }
       />
       
-      <div className="grid gap-4 md:grid-cols-3">
-        <MetricCard title="Total Inbound Trunks" value="5" />
-        <MetricCard title="Total Outbound Trunks" value="3" />
-        <MetricCard title="Total Dispatch Rules" value="12" />
-      </div>
-
-      <div className="space-y-8">
-        <div>
-          <h3 className="text-lg font-medium mb-4">Inbound Trunks</h3>
-          <DataTable 
-            columns={inboundTrunksColumns} 
-            data={inboundTrunksData}
-          />
+      <main className="flex-1 p-6 space-y-6">
+        <div className="grid gap-4 md:grid-cols-3">
+          <MetricCard title="Total Inbound Trunks" value="5" />
+          <MetricCard title="Total Outbound Trunks" value="3" />
+          <MetricCard title="Total Dispatch Rules" value="12" />
         </div>
 
-        <div>
-          <h3 className="text-lg font-medium mb-4">Outbound Trunks</h3>
-          <DataTable 
-            columns={outboundTrunksColumns} 
-            data={outboundTrunksData}
-          />
-        </div>
-      </div>
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-lg font-medium mb-4">Inbound Trunks</h3>
+            <DataTable 
+              columns={inboundTrunksColumns} 
+              data={inboundTrunksData}
+            />
+          </div>
 
-      <CreateTrunkModal 
-        open={createTrunkOpen} 
-        onOpenChange={setCreateTrunkOpen} 
-      />
-      <CreateDispatchRuleModal 
-        open={createDispatchRuleOpen} 
-        onOpenChange={setCreateDispatchRuleOpen} 
-      />
+          <div>
+            <h3 className="text-lg font-medium mb-4">Outbound Trunks</h3>
+            <DataTable 
+              columns={outboundTrunksColumns} 
+              data={outboundTrunksData}
+            />
+          </div>
+        </div>
+
+        <CreateTrunkModal 
+          open={createTrunkOpen} 
+          onOpenChange={setCreateTrunkOpen} 
+        />
+        <CreateDispatchRuleModal 
+          open={createDispatchRuleOpen} 
+          onOpenChange={setCreateDispatchRuleOpen} 
+        />
+      </main>
     </div>
   );
 };

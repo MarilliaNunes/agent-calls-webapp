@@ -27,7 +27,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <SidebarProvider>
-          <div className="min-h-screen flex w-full bg-background">
+          <div className="min-h-screen flex w-full bg-card">
             <AppSidebar />
             <div className="flex-1 flex flex-col">
               <Routes>
@@ -38,6 +38,7 @@ const App = () => (
                 <Route path="/ingresses" element={<Ingresses />} />
                 <Route path="/telephony" element={<Telephony />} />
                 <Route path="/telephony/config" element={<TelephonyConfig />} />
+                <Route path="/settings" element={<Navigate to="/settings/project" replace />} />
                 <Route path="/settings/project" element={<SettingsProject />} />
                 <Route path="/settings/members" element={<SettingsMembers />} />
                 <Route path="/settings/keys" element={<SettingsKeys />} />
