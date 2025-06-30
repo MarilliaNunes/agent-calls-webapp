@@ -171,7 +171,7 @@ export function AppSidebar() {
                     <rect x="2" y="2" width="20" height="20" fill="white" />
                   </svg>
                 </div>
-                <span className="text-lg font-semibold text-foreground">Flow-Ops</span>
+                <span className="text-lg font-semibold text-foreground">LiveKit</span>
               </>
             )}
             {isCollapsed && (
