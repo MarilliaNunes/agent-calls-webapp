@@ -51,17 +51,17 @@ export function DataTable({
         </div>
       </div>
       
-      <div className="rounded-md border">
+      <div className="border border-border bg-card">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b">
+              <tr className="border-b border-border">
                 {columns.map((column) => (
-                  <th key={column.key} className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                  <th key={column.key} className="table-header text-left">
                     <div className="flex items-center gap-2">
                       {column.header}
                       {column.sortable && (
-                        <Button variant="ghost" size="sm" className="h-4 w-4 p-0">
+                        <Button variant="ghost" size="sm" className="h-4 w-4 p-0 hover:bg-muted">
                           ↕
                         </Button>
                       )}
@@ -73,7 +73,7 @@ export function DataTable({
             <tbody>
               {data.length === 0 ? (
                 <tr>
-                  <td colSpan={columns.length} className="p-4 text-center">
+                  <td colSpan={columns.length} className="table-cell text-center py-8">
                     {emptyState || (
                       <div className="text-muted-foreground">
                         <div className="text-sm font-medium">No results.</div>
@@ -84,9 +84,9 @@ export function DataTable({
                 </tr>
               ) : (
                 data.map((row, index) => (
-                  <tr key={index} className="border-b hover:bg-muted/50 transition-colors">
+                  <tr key={index} className="border-b border-border hover:bg-muted/30 transition-colors duration-150">
                     {columns.map((column) => (
-                      <td key={column.key} className="p-4 align-middle">
+                      <td key={column.key} className="table-cell">
                         {row[column.key] || '-'}
                       </td>
                     ))}

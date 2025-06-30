@@ -13,7 +13,7 @@ interface MetricCardProps {
 
 export function MetricCard({ title, value, subtitle, icon, helpTooltip }: MetricCardProps) {
   return (
-    <Card className="metric-card">
+    <Card className="hover:border-border/60 transition-all duration-150">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
           {title}

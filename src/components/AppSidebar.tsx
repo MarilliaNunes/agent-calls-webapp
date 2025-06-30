@@ -67,25 +67,25 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path;
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
     isActive 
-      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" 
+      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium border-r-2 border-sidebar-primary" 
       : "hover:bg-sidebar-accent/50 text-sidebar-foreground";
 
   return (
     <Sidebar className={isCollapsed ? "w-16" : "w-64"} collapsible="icon">
-      <SidebarContent className="px-3 py-4">
+      <SidebarContent className="px-2 py-4 border-r border-sidebar-border">
         {/* Main Navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/60 uppercase tracking-wider mb-2">
+          <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/60 uppercase tracking-wider mb-2 px-3">
             Navigation
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="h-9">
                     <NavLink to={item.url} className={getNavClass}>
                       <item.icon className="h-4 w-4" />
-                      {!isCollapsed && <span>{item.title}</span>}
+                      {!isCollapsed && <span className="text-sm">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -95,31 +95,31 @@ export function AppSidebar() {
         </SidebarGroup>
 
         {/* Telephony Section */}
-        <SidebarGroup>
+        <SidebarGroup className="mt-6">
           <SidebarGroupContent>
             <SidebarMenu>
               <Collapsible open={telephonyOpen} onOpenChange={setTelephonyOpen}>
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="hover:bg-sidebar-accent/50 text-sidebar-foreground">
+                    <SidebarMenuButton className="hover:bg-sidebar-accent/50 text-sidebar-foreground h-9">
                       <Phone className="h-4 w-4" />
                       {!isCollapsed && (
                         <>
-                          <span>Telephony</span>
-                          <ChevronDown className={`ml-auto h-4 w-4 transition-transform ${telephonyOpen ? 'rotate-180' : ''}`} />
+                          <span className="text-sm">Telephony</span>
+                          <ChevronDown className={`ml-auto h-4 w-4 transition-transform duration-200 ${telephonyOpen ? 'rotate-180' : ''}`} />
                         </>
                       )}
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   {!isCollapsed && (
                     <CollapsibleContent>
-                      <SidebarMenuSub>
+                      <SidebarMenuSub className="ml-4 border-l border-sidebar-border/50">
                         {telephonyItems.map((item) => (
                           <SidebarMenuSubItem key={item.title}>
-                            <SidebarMenuSubButton asChild>
+                            <SidebarMenuSubButton asChild className="h-8">
                               <NavLink to={item.url} className={getNavClass}>
                                 <item.icon className="h-4 w-4" />
-                                <span>{item.title}</span>
+                                <span className="text-sm">{item.title}</span>
                               </NavLink>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
@@ -134,31 +134,31 @@ export function AppSidebar() {
         </SidebarGroup>
 
         {/* Settings Section */}
-        <SidebarGroup>
+        <SidebarGroup className="mt-6">
           <SidebarGroupContent>
             <SidebarMenu>
               <Collapsible open={settingsOpen} onOpenChange={setSettingsOpen}>
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="hover:bg-sidebar-accent/50 text-sidebar-foreground">
+                    <SidebarMenuButton className="hover:bg-sidebar-accent/50 text-sidebar-foreground h-9">
                       <Settings className="h-4 w-4" />
                       {!isCollapsed && (
                         <>
-                          <span>Settings</span>
-                          <ChevronDown className={`ml-auto h-4 w-4 transition-transform ${settingsOpen ? 'rotate-180' : ''}`} />
+                          <span className="text-sm">Settings</span>
+                          <ChevronDown className={`ml-auto h-4 w-4 transition-transform duration-200 ${settingsOpen ? 'rotate-180' : ''}`} />
                         </>
                       )}
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   {!isCollapsed && (
                     <CollapsibleContent>
-                      <SidebarMenuSub>
+                      <SidebarMenuSub className="ml-4 border-l border-sidebar-border/50">
                         {settingsItems.map((item) => (
                           <SidebarMenuSubItem key={item.title}>
-                            <SidebarMenuSubButton asChild>
+                            <SidebarMenuSubButton asChild className="h-8">
                               <NavLink to={item.url} className={getNavClass}>
                                 <item.icon className="h-4 w-4" />
-                                <span>{item.title}</span>
+                                <span className="text-sm">{item.title}</span>
                               </NavLink>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
