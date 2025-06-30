@@ -11,6 +11,11 @@ import Sessions from "./pages/Sessions";
 import Egresses from "./pages/Egresses";
 import Ingresses from "./pages/Ingresses";
 import Telephony from "./pages/Telephony";
+import TelephonyConfig from "./pages/TelephonyConfig";
+import SettingsProject from "./pages/SettingsProject";
+import SettingsMembers from "./pages/SettingsMembers";
+import SettingsKeys from "./pages/SettingsKeys";
+import SettingsWebhooks from "./pages/SettingsWebhooks";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +37,11 @@ const App = () => (
                 <Route path="/egresses" element={<Egresses />} />
                 <Route path="/ingresses" element={<Ingresses />} />
                 <Route path="/telephony" element={<Telephony />} />
+                <Route path="/telephony/config" element={<TelephonyConfig />} />
+                <Route path="/settings/project" element={<SettingsProject />} />
+                <Route path="/settings/members" element={<SettingsMembers />} />
+                <Route path="/settings/keys" element={<SettingsKeys />} />
+                <Route path="/settings/webhooks" element={<SettingsWebhooks />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
