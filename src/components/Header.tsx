@@ -3,15 +3,22 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, Settings } from "lucide-react";
+import { ReactNode } from "react";
+
+interface Breadcrumb {
+  label: string;
+  href: string;
+}
 
 interface HeaderProps {
   title: string;
-  breadcrumbs?: string[];
+  breadcrumbs?: Breadcrumb[];
   lastUpdated?: string;
   autoRefresh?: boolean;
+  action?: ReactNode;
 }
 
-export function Header({ title, breadcrumbs = [], lastUpdated, autoRefresh }: HeaderProps) {
+export function Header({ title, breadcrumbs = [], lastUpdated, autoRefresh, action }: HeaderProps) {
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex items-center gap-2 px-4">
@@ -23,7 +30,7 @@ export function Header({ title, breadcrumbs = [], lastUpdated, autoRefresh }: He
             {breadcrumbs.map((crumb, index) => (
               <span key={index} className="flex items-center gap-2">
                 <span>/</span>
-                <span>{crumb}</span>
+                <span>{crumb.label}</span>
               </span>
             ))}
           </div>
@@ -47,6 +54,8 @@ export function Header({ title, breadcrumbs = [], lastUpdated, autoRefresh }: He
             </span>
           </div>
         )}
+        
+        {action}
         
         <Button variant="ghost" size="sm" className="text-muted-foreground">
           <Settings className="h-4 w-4" />

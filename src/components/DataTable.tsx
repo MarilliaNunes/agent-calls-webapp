@@ -6,12 +6,11 @@ import { Search, Filter, Download } from "lucide-react";
 
 interface Column {
   key: string;
-  title: string;
+  header: string;
   sortable?: boolean;
 }
 
 interface DataTableProps {
-  title: string;
   columns: Column[];
   data: Record<string, any>[];
   searchPlaceholder?: string;
@@ -20,7 +19,6 @@ interface DataTableProps {
 }
 
 export function DataTable({ 
-  title, 
   columns, 
   data, 
   searchPlaceholder = "Search...",
@@ -30,7 +28,6 @@ export function DataTable({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">{title}</h2>
         <div className="flex items-center gap-2">
           {actions}
           <Button variant="outline" size="sm">
@@ -54,15 +51,15 @@ export function DataTable({
         </div>
       </div>
       
-      <div className="data-table">
+      <div className="rounded-md border">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr>
+              <tr className="border-b">
                 {columns.map((column) => (
-                  <th key={column.key} className="table-header text-left">
+                  <th key={column.key} className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
                     <div className="flex items-center gap-2">
-                      {column.title}
+                      {column.header}
                       {column.sortable && (
                         <Button variant="ghost" size="sm" className="h-4 w-4 p-0">
                           ↕
@@ -76,7 +73,7 @@ export function DataTable({
             <tbody>
               {data.length === 0 ? (
                 <tr>
-                  <td colSpan={columns.length} className="table-cell text-center py-8">
+                  <td colSpan={columns.length} className="p-4 text-center">
                     {emptyState || (
                       <div className="text-muted-foreground">
                         <div className="text-sm font-medium">No results.</div>
@@ -87,9 +84,9 @@ export function DataTable({
                 </tr>
               ) : (
                 data.map((row, index) => (
-                  <tr key={index} className="hover:bg-muted/10 transition-colors">
+                  <tr key={index} className="border-b hover:bg-muted/50 transition-colors">
                     {columns.map((column) => (
-                      <td key={column.key} className="table-cell">
+                      <td key={column.key} className="p-4 align-middle">
                         {row[column.key] || '-'}
                       </td>
                     ))}
