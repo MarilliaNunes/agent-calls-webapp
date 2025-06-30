@@ -1,6 +1,6 @@
-
 import { useState } from "react";
 import { Header } from "@/components/Header";
+import { SettingsLayout } from "@/components/SettingsLayout";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,7 +32,7 @@ const SettingsWebhooks = () => {
   ];
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
+    <div className="flex flex-col h-full">
       <Header 
         title="Webhooks" 
         breadcrumbs={breadcrumbs}
@@ -44,22 +44,26 @@ const SettingsWebhooks = () => {
         }
       />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>About Webhooks</CardTitle>
-          <CardDescription>
-            Webhooks allow you to receive real-time notifications when events occur in your LiveKit project.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" size="sm">
-            <ExternalLink className="mr-2 h-4 w-4" />
-            View Documentation
-          </Button>
-        </CardContent>
-      </Card>
-      
-      <DataTable columns={columns} data={data} />
+      <SettingsLayout>
+        <div className="flex-1 p-6 space-y-6 overflow-auto">
+          <Card>
+            <CardHeader>
+              <CardTitle>About Webhooks</CardTitle>
+              <CardDescription>
+                Webhooks allow you to receive real-time notifications when events occur in your LiveKit project.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" size="sm">
+                <ExternalLink className="mr-2 h-4 w-4" />
+                View Documentation
+              </Button>
+            </CardContent>
+          </Card>
+          
+          <DataTable columns={columns} data={data} />
+        </div>
+      </SettingsLayout>
       
       <CreateWebhookModal 
         open={createWebhookModalOpen} 

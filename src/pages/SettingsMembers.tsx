@@ -1,6 +1,6 @@
-
 import { useState } from "react";
 import { Header } from "@/components/Header";
+import { SettingsLayout } from "@/components/SettingsLayout";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { InviteMemberModal } from "@/components/modals/InviteMemberModal";
@@ -40,7 +40,7 @@ const SettingsMembers = () => {
   ];
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
+    <div className="flex flex-col h-full">
       <Header 
         title="Team Members" 
         breadcrumbs={breadcrumbs}
@@ -52,7 +52,11 @@ const SettingsMembers = () => {
         }
       />
       
-      <DataTable columns={columns} data={data} />
+      <SettingsLayout>
+        <div className="flex-1 p-6 overflow-auto">
+          <DataTable columns={columns} data={data} />
+        </div>
+      </SettingsLayout>
       
       <InviteMemberModal 
         open={inviteModalOpen} 

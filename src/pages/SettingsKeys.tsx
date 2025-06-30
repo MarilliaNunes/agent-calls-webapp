@@ -1,6 +1,6 @@
-
 import { useState } from "react";
 import { Header } from "@/components/Header";
+import { SettingsLayout } from "@/components/SettingsLayout";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { CreateKeyModal } from "@/components/modals/CreateKeyModal";
@@ -43,7 +43,7 @@ const SettingsKeys = () => {
   ];
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
+    <div className="flex flex-col h-full">
       <Header 
         title="API Keys" 
         breadcrumbs={breadcrumbs}
@@ -55,7 +55,11 @@ const SettingsKeys = () => {
         }
       />
       
-      <DataTable columns={columns} data={data} />
+      <SettingsLayout>
+        <div className="flex-1 p-6 overflow-auto">
+          <DataTable columns={columns} data={data} />
+        </div>
+      </SettingsLayout>
       
       <CreateKeyModal 
         open={createKeyModalOpen} 
